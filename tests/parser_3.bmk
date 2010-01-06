@@ -1,0 +1,21 @@
+(GRAMMAR
+	(GRAMMAR_DECL OPTIONS)
+	(RULE rule1
+		(RULEPART
+			(NONTERMINAL no)
+			(TERMINAL "options")))
+	(RULE rule2
+		(RULEPART
+			(NONTERMINAL this
+				(OPTION +))
+			(NONTERMINAL that
+				(OPTION *))
+			(NONTERMINAL theother
+				(OPTION ?))))
+	(RULE rule3
+		(RULEPART
+			(TERMINAL "one"
+				(OPTION ?))
+			(NONTERMINAL two)
+			(TERMINAL "three"
+				(OPTION + ,)))))

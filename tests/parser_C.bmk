@@ -1,0 +1,568 @@
+(GRAMMAR
+	(GRAMMAR_DECL C)
+	(RULE translation_unit
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL function_definition))
+				(RULEPART
+					(NONTERMINAL declaration))
+				(OPTION +))))
+	(RULE function_definition
+		(RULEPART
+			(NONTERMINAL declaration_specifiers
+				(OPTION ?))
+			(NONTERMINAL declarator)
+			(NONTERMINAL declaration
+				(OPTION *))
+			(NONTERMINAL block)))
+	(RULE declaration
+		(RULEPART
+			(NONTERMINAL declaration_specifiers)
+			(NONTERMINAL init_declarator
+				(OPTION + ,))
+			(TERMINAL ";")))
+	(RULE declaration_specifiers
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL storage_class_specifier))
+				(RULEPART
+					(NONTERMINAL type_specifier))
+				(RULEPART
+					(NONTERMINAL type_qualifier))
+				(OPTION +))))
+	(RULE storage_class_specifier
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "auto"))
+				(RULEPART
+					(TERMINAL "register"))
+				(RULEPART
+					(TERMINAL "static"))
+				(RULEPART
+					(TERMINAL "extern"))
+				(RULEPART
+					(TERMINAL "typedef")))))
+	(RULE type_specifier
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "void"))
+				(RULEPART
+					(TERMINAL "char"))
+				(RULEPART
+					(TERMINAL "short"))
+				(RULEPART
+					(TERMINAL "int"))
+				(RULEPART
+					(TERMINAL "long"))
+				(RULEPART
+					(TERMINAL "float"))
+				(RULEPART
+					(TERMINAL "double"))
+				(RULEPART
+					(TERMINAL "signed"))
+				(RULEPART
+					(TERMINAL "unsigned"))
+				(RULEPART
+					(NONTERMINAL struct_or_union_specifier))
+				(RULEPART
+					(NONTERMINAL enum_specifier))
+				(RULEPART
+					(NONTERMINAL typedef_name)))))
+	(RULE type_qualifier
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "const"))
+				(RULEPART
+					(TERMINAL "volatile")))))
+	(RULE struct_or_union_specifier
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "struct"))
+				(RULEPART
+					(TERMINAL "union")))
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL identifier
+						(OPTION ?))
+					(TERMINAL "{")
+					(NONTERMINAL struct_declaration
+						(OPTION +))
+					(TERMINAL "}"))
+				(RULEPART
+					(NONTERMINAL identifier)))))
+	(RULE init_declarator
+		(RULEPART
+			(NONTERMINAL declarator)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "=")
+					(NONTERMINAL initializer))
+				(OPTION ?))))
+	(RULE struct_declaration
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL type_specifier))
+				(RULEPART
+					(NONTERMINAL type_qualifier))
+				(OPTION +))
+			(NONTERMINAL struct_declarator
+				(OPTION + ,))))
+	(RULE struct_declarator
+		(RULEPART
+			(NONTERMINAL declarator)) struct_declarator
+		(RULEPART
+			(NONTERMINAL declarator
+				(OPTION ?))
+			(TERMINAL ":")
+			(NONTERMINAL constant_expression)))
+	(RULE enum_specifier
+		(RULEPART
+			(TERMINAL "enum")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL identifier))
+				(RULEPART
+					(NONTERMINAL identifier
+						(OPTION ?))
+					(TERMINAL "{")
+					(NONTERMINAL enumerator
+						(OPTION + ,))
+					(TERMINAL "}")))))
+	(RULE enumerator
+		(RULEPART
+			(NONTERMINAL identifier)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "=")
+					(NONTERMINAL constant_expression))
+				(OPTION ?))))
+	(RULE declarator
+		(RULEPART
+			(NONTERMINAL pointer
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL identifier))
+				(RULEPART
+					(TERMINAL "(")
+					(NONTERMINAL declarator)
+					(TERMINAL ")")))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "[")
+					(NONTERMINAL constant_expression
+						(OPTION ?))
+					(TERMINAL "]"))
+				(RULEPART
+					(TERMINAL "(")
+					(NONTERMINAL parameter_type_list)
+					(TERMINAL ")"))
+				(RULEPART
+					(TERMINAL "(")
+					(NONTERMINAL identifier
+						(OPTION + , ?))
+					(TERMINAL ")"))
+				(OPTION *))))
+	(RULE pointer
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "*")
+					(NONTERMINAL type_qualifier
+						(OPTION *)))
+				(OPTION *))))
+	(RULE parameter_type_list
+		(RULEPART
+			(NONTERMINAL parameter_declaration
+				(OPTION + ,))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ",")
+					(TERMINAL "..."))
+				(OPTION ?))))
+	(RULE parameter_declaration
+		(RULEPART
+			(NONTERMINAL declaration_specifiers)
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL declarator))
+				(RULEPART
+					(NONTERMINAL abstract_declarator))
+				(OPTION ?))))
+	(RULE initializer
+		(RULEPART
+			(NONTERMINAL assignment_expression)) initializer
+		(RULEPART
+			(TERMINAL "{")
+			(NONTERMINAL initializer
+				(OPTION + ,))
+			(TERMINAL ","
+				(OPTION ?))
+			(TERMINAL "}")))
+	(RULE type_name
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL type_specifier))
+				(RULEPART
+					(NONTERMINAL type_qualifier))
+				(OPTION +))
+			(NONTERMINAL abstract_declarator
+				(OPTION ?))))
+	(RULE abstract_declarator
+		(RULEPART
+			(NONTERMINAL pointer)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "(")
+					(NONTERMINAL abstract_declarator)
+					(TERMINAL ")"))
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "[")
+					(NONTERMINAL constant_expression
+						(OPTION ?))
+					(TERMINAL "]"))
+				(RULEPART
+					(TERMINAL "(")
+					(NONTERMINAL parameter_type_list
+						(OPTION ?))
+					(TERMINAL ")"))
+				(OPTION *))))
+	(RULE statement
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(RULEGROUP
+						(RULEPART
+							(NONTERMINAL identifier))
+						(RULEPART
+							(TERMINAL "case")
+							(NONTERMINAL constant_expression))
+						(RULEPART
+							(TERMINAL "default")))
+					(TERMINAL ":"))
+				(OPTION *))
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL expression
+						(OPTION ?))
+					(TERMINAL ";"))
+				(RULEPART
+					(NONTERMINAL block))
+				(RULEPART
+					(TERMINAL "if")
+					(TERMINAL "(")
+					(NONTERMINAL expression)
+					(TERMINAL ")")
+					(NONTERMINAL statement))
+				(RULEPART
+					(TERMINAL "if")
+					(TERMINAL "(")
+					(NONTERMINAL expression)
+					(TERMINAL ")")
+					(NONTERMINAL statement)
+					(TERMINAL "else")
+					(NONTERMINAL statement))
+				(RULEPART
+					(TERMINAL "switch")
+					(TERMINAL "(")
+					(NONTERMINAL expression)
+					(TERMINAL ")")
+					(NONTERMINAL statement))
+				(RULEPART
+					(TERMINAL "while")
+					(TERMINAL "(")
+					(NONTERMINAL expression)
+					(TERMINAL ")")
+					(NONTERMINAL statement))
+				(RULEPART
+					(TERMINAL "do")
+					(NONTERMINAL statement)
+					(TERMINAL "while")
+					(TERMINAL "(")
+					(NONTERMINAL expression)
+					(TERMINAL ")")
+					(TERMINAL ";"))
+				(RULEPART
+					(TERMINAL "for")
+					(TERMINAL "(")
+					(NONTERMINAL expression
+						(OPTION ?))
+					(TERMINAL ";")
+					(NONTERMINAL expression
+						(OPTION ?))
+					(TERMINAL ";")
+					(NONTERMINAL expression
+						(OPTION ?))
+					(TERMINAL ")")
+					(NONTERMINAL statement))
+				(RULEPART
+					(TERMINAL "goto")
+					(NONTERMINAL identifier)
+					(TERMINAL ";"))
+				(RULEPART
+					(TERMINAL "continue")
+					(TERMINAL ";"))
+				(RULEPART
+					(TERMINAL "break")
+					(TERMINAL ";"))
+				(RULEPART
+					(TERMINAL "return")
+					(NONTERMINAL expression
+						(OPTION ?))
+					(TERMINAL ";")))))
+	(RULE block
+		(RULEPART
+			(TERMINAL "{")
+			(NONTERMINAL declaration
+				(OPTION *))
+			(NONTERMINAL statement
+				(OPTION *))
+			(TERMINAL "}")))
+	(RULE expression
+		(RULEPART
+			(NONTERMINAL assignment_expression
+				(OPTION + ,))))
+	(RULE assignment_expression
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL unary_expression)
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL "="))
+						(RULEPART
+							(TERMINAL "*="))
+						(RULEPART
+							(TERMINAL "/="))
+						(RULEPART
+							(TERMINAL "%="))
+						(RULEPART
+							(TERMINAL "+="))
+						(RULEPART
+							(TERMINAL "-="))
+						(RULEPART
+							(TERMINAL "<<="))
+						(RULEPART
+							(TERMINAL ">>="))
+						(RULEPART
+							(TERMINAL "&="))
+						(RULEPART
+							(TERMINAL "^="))
+						(RULEPART
+							(TERMINAL "|="))))
+				(OPTION *))
+			(NONTERMINAL conditional_expression)))
+	(RULE conditional_expression
+		(RULEPART
+			(NONTERMINAL logical_OR_expression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "?")
+					(NONTERMINAL expression)
+					(TERMINAL ":")
+					(NONTERMINAL conditional_expression))
+				(OPTION ?))))
+	(RULE constant_expression
+		(RULEPART
+			(NONTERMINAL conditional_expression)))
+	(RULE logical_OR_expression
+		(RULEPART
+			(NONTERMINAL logical_AND_expression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "||")
+					(NONTERMINAL logical_AND_expression))
+				(OPTION *))))
+	(RULE logical_AND_expression
+		(RULEPART
+			(NONTERMINAL inclusive_OR_expression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "&&")
+					(NONTERMINAL inclusive_OR_expression))
+				(OPTION *))))
+	(RULE inclusive_OR_expression
+		(RULEPART
+			(NONTERMINAL exclusive_OR_expression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "|")
+					(NONTERMINAL exclusive_OR_expression))
+				(OPTION *))))
+	(RULE exclusive_OR_expression
+		(RULEPART
+			(NONTERMINAL AND_expression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "^")
+					(NONTERMINAL AND_expression))
+				(OPTION *))))
+	(RULE AND_expression
+		(RULEPART
+			(NONTERMINAL equality_expression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "&")
+					(NONTERMINAL equality_expression))
+				(OPTION *))))
+	(RULE equality_expression
+		(RULEPART
+			(NONTERMINAL relational_expression)
+			(RULEGROUP
+				(RULEPART
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL "=="))
+						(RULEPART
+							(TERMINAL "!=")))
+					(NONTERMINAL relational_expression))
+				(OPTION *))))
+	(RULE relational_expression
+		(RULEPART
+			(NONTERMINAL shift_expression)
+			(RULEGROUP
+				(RULEPART
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL "<"))
+						(RULEPART
+							(TERMINAL ">"))
+						(RULEPART
+							(TERMINAL "<="))
+						(RULEPART
+							(TERMINAL ">=")))
+					(NONTERMINAL shift_expression))
+				(OPTION *))))
+	(RULE shift_expression
+		(RULEPART
+			(NONTERMINAL additive_expression)
+			(RULEGROUP
+				(RULEPART
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL "<<"))
+						(RULEPART
+							(TERMINAL ">>")))
+					(NONTERMINAL additive_expression))
+				(OPTION *))))
+	(RULE additive_expression
+		(RULEPART
+			(NONTERMINAL multiplicative_expression)
+			(RULEGROUP
+				(RULEPART
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL "+"))
+						(RULEPART
+							(TERMINAL "-")))
+					(NONTERMINAL multiplicative_expression))
+				(OPTION *))))
+	(RULE multiplicative_expression
+		(RULEPART
+			(NONTERMINAL cast_expression)
+			(RULEGROUP
+				(RULEPART
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL "*"))
+						(RULEPART
+							(TERMINAL "/"))
+						(RULEPART
+							(TERMINAL "%")))
+					(NONTERMINAL cast_expression))
+				(OPTION *))))
+	(RULE cast_expression
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "(")
+					(NONTERMINAL type_name)
+					(TERMINAL ")"))
+				(OPTION *))
+			(NONTERMINAL unary_expression)))
+	(RULE unary_expression
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "++"))
+				(RULEPART
+					(TERMINAL "--"))
+				(RULEPART
+					(TERMINAL "sizeof"))
+				(OPTION *))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "sizeof")
+					(TERMINAL "(")
+					(NONTERMINAL type_name)
+					(TERMINAL ")"))
+				(RULEPART
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL "&"))
+						(RULEPART
+							(TERMINAL "*"))
+						(RULEPART
+							(TERMINAL "+"))
+						(RULEPART
+							(TERMINAL "-"))
+						(RULEPART
+							(TERMINAL "~"))
+						(RULEPART
+							(TERMINAL "!")))
+					(NONTERMINAL cast_expression))
+				(RULEPART
+					(NONTERMINAL postfix_expression)))))
+	(RULE postfix_expression
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL identifier))
+				(RULEPART
+					(NONTERMINAL constant))
+				(RULEPART
+					(NONTERMINAL string))
+				(RULEPART
+					(TERMINAL "(")
+					(NONTERMINAL expression)
+					(TERMINAL ")")))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "[")
+					(NONTERMINAL expression)
+					(TERMINAL "]"))
+				(RULEPART
+					(TERMINAL "(")
+					(NONTERMINAL assignment_expression
+						(OPTION + ,))
+					(TERMINAL ")"))
+				(RULEPART
+					(TERMINAL ".")
+					(NONTERMINAL identifier))
+				(RULEPART
+					(TERMINAL "->")
+					(NONTERMINAL identifier))
+				(RULEPART
+					(TERMINAL "++"))
+				(RULEPART
+					(TERMINAL "--"))
+				(OPTION *))))
+	(RULE constant
+		(RULEPART
+			(NONTERMINAL integer_constant)) constant
+		(RULEPART
+			(NONTERMINAL character_constant)) constant
+		(RULEPART
+			(NONTERMINAL floating_constant)) constant
+		(RULEPART
+			(NONTERMINAL enumeration_constant))))

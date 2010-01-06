@@ -1,0 +1,17 @@
+(GRAMMAR
+	(GRAMMAR_DECL EBNF)
+	(RULE rule1
+		(RULEPART))
+	(RULE rule2
+		(RULEPART
+			(NONTERMINAL foo)
+			(NONTERMINAL bar)
+			(TERMINAL "baz")) rule2
+		(RULEPART
+			(NONTERMINAL bat)
+			(TERMINAL "fat")))
+	(RULE rule3
+		(RULEPART
+			(NONTERMINAL abc)
+			(TERMINAL "def")
+			(NONTERMINAL g))))

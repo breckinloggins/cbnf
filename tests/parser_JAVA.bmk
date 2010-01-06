@@ -1,0 +1,1230 @@
+(GRAMMAR
+	(GRAMMAR_DECL JAVA)
+	(RULE CompilationUnit
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL PackageDeclaration))
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL ImportDeclaration))
+				(OPTION *))
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL TypeDeclaration))
+				(OPTION +))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "\u001a"))
+				(OPTION ?))))
+	(RULE PackageDeclaration
+		(RULEPART
+			(NONTERMINAL Modifiers)
+			(TERMINAL "package")
+			(NONTERMINAL Name)
+			(TERMINAL ";")))
+	(RULE ImportDeclaration
+		(RULEPART
+			(TERMINAL "import")
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "static"))
+				(OPTION ?))
+			(NONTERMINAL Name)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ".")
+					(TERMINAL "*"))
+				(OPTION ?))
+			(TERMINAL ";")))
+	(RULE Modifiers
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL "public"))
+						(RULEPART
+							(TERMINAL "static"))
+						(RULEPART
+							(TERMINAL "protected"))
+						(RULEPART
+							(TERMINAL "private"))
+						(RULEPART
+							(TERMINAL "final"))
+						(RULEPART
+							(TERMINAL "abstract"))
+						(RULEPART
+							(TERMINAL "synchronized"))
+						(RULEPART
+							(TERMINAL "native"))
+						(RULEPART
+							(TERMINAL "transient"))
+						(RULEPART
+							(TERMINAL "volatile"))
+						(RULEPART
+							(TERMINAL "strictfp"))
+						(RULEPART
+							(NONTERMINAL Annotation))))
+				(OPTION *))))
+	(RULE TypeDeclaration
+		(RULEPART
+			(TERMINAL ";")) TypeDeclaration
+		(RULEPART
+			(NONTERMINAL Modifiers)
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL ClassOrInterfaceDeclaration))
+				(RULEPART
+					(NONTERMINAL EnumDeclaration))
+				(RULEPART
+					(NONTERMINAL AnnotationTypeDeclaration)))))
+	(RULE ClassOrInterfaceDeclaration
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "class"))
+				(RULEPART
+					(TERMINAL "interface")))
+			(NONTERMINAL IDENTIFIER)
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL TypeParameters))
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL ExtendsList))
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL ImplementsList))
+				(OPTION ?))
+			(NONTERMINAL ClassOrInterfaceBody)))
+	(RULE ExtendsList
+		(RULEPART
+			(TERMINAL "extends")
+			(NONTERMINAL ClassOrInterfaceType)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ",")
+					(NONTERMINAL ClassOrInterfaceType))
+				(OPTION *))))
+	(RULE ImplementsList
+		(RULEPART
+			(TERMINAL "implements")
+			(NONTERMINAL ClassOrInterfaceType)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ",")
+					(NONTERMINAL ClassOrInterfaceType))
+				(OPTION *))))
+	(RULE EnumDeclaration
+		(RULEPART
+			(TERMINAL "enum")
+			(NONTERMINAL IDENTIFIER)
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL ImplementsList))
+				(OPTION ?))
+			(NONTERMINAL EnumBody)))
+	(RULE EnumBody
+		(RULEPART
+			(TERMINAL "{")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL EnumConstant)
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL ",")
+							(NONTERMINAL EnumConstant))
+						(OPTION *)))
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ","))
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ";")
+					(RULEGROUP
+						(RULEPART
+							(NONTERMINAL ClassOrInterfaceBodyDeclaration))
+						(OPTION *)))
+				(OPTION ?))
+			(TERMINAL "}")))
+	(RULE EnumConstant
+		(RULEPART
+			(NONTERMINAL Modifiers)
+			(NONTERMINAL IDENTIFIER)
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL Arguments))
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL ClassOrInterfaceBody))
+				(OPTION ?))))
+	(RULE TypeParameters
+		(RULEPART
+			(TERMINAL "<")
+			(NONTERMINAL TypeParameter)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ",")
+					(NONTERMINAL TypeParameter))
+				(OPTION *))
+			(TERMINAL ">")))
+	(RULE TypeParameter
+		(RULEPART
+			(NONTERMINAL IDENTIFIER)
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL TypeBound))
+				(OPTION ?))))
+	(RULE TypeBound
+		(RULEPART
+			(TERMINAL "extends")
+			(NONTERMINAL ClassOrInterfaceType)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "&")
+					(NONTERMINAL ClassOrInterfaceType))
+				(OPTION *))))
+	(RULE ClassOrInterfaceBody
+		(RULEPART
+			(TERMINAL "{")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL ClassOrInterfaceBodyDeclaration))
+				(OPTION *))
+			(TERMINAL "}")))
+	(RULE ClassOrInterfaceBodyDeclaration
+		(RULEPART
+			(NONTERMINAL Initializer)) ClassOrInterfaceBodyDeclaration
+		(RULEPART
+			(NONTERMINAL Modifiers)
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL ClassOrInterfaceDeclaration))
+				(RULEPART
+					(NONTERMINAL EnumDeclaration))
+				(RULEPART
+					(NONTERMINAL ConstructorDeclaration))
+				(RULEPART
+					(NONTERMINAL FieldDeclaration))
+				(RULEPART
+					(NONTERMINAL MethodDeclaration))
+				(RULEPART
+					(NONTERMINAL AnnotationTypeDeclaration)))) ClassOrInterfaceBodyDeclaration
+		(RULEPART
+			(TERMINAL ";")))
+	(RULE FieldDeclaration
+		(RULEPART
+			(NONTERMINAL Type)
+			(NONTERMINAL VariableDeclarator)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ",")
+					(NONTERMINAL VariableDeclarator))
+				(OPTION *))
+			(TERMINAL ";")))
+	(RULE VariableDeclarator
+		(RULEPART
+			(NONTERMINAL VariableDeclaratorId)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "=")
+					(NONTERMINAL VariableInitializer))
+				(OPTION ?))))
+	(RULE VariableDeclaratorId
+		(RULEPART
+			(NONTERMINAL IDENTIFIER)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "[")
+					(TERMINAL "]"))
+				(OPTION *))))
+	(RULE VariableInitializer
+		(RULEPART
+			(NONTERMINAL ArrayInitializer)) VariableInitializer
+		(RULEPART
+			(NONTERMINAL Expression)))
+	(RULE ArrayInitializer
+		(RULEPART
+			(TERMINAL "{")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL VariableInitializer)
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL ",")
+							(NONTERMINAL VariableInitializer))
+						(OPTION *)))
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ","))
+				(OPTION ?))
+			(TERMINAL "}")))
+	(RULE MethodDeclaration
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL TypeParameters))
+				(OPTION ?))
+			(NONTERMINAL ResultType)
+			(NONTERMINAL MethodDeclarator)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "throws")
+					(NONTERMINAL NameList))
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL Block))
+				(RULEPART
+					(TERMINAL ";")))))
+	(RULE MethodDeclarator
+		(RULEPART
+			(NONTERMINAL IDENTIFIER)
+			(NONTERMINAL FormalParameters)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "[")
+					(TERMINAL "]"))
+				(OPTION *))))
+	(RULE FormalParameters
+		(RULEPART
+			(TERMINAL "(")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL FormalParameter)
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL ",")
+							(NONTERMINAL FormalParameter))
+						(OPTION *)))
+				(OPTION ?))
+			(TERMINAL ")")))
+	(RULE FormalParameter
+		(RULEPART
+			(NONTERMINAL Modifiers)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "final"))
+				(RULEPART
+					(NONTERMINAL Annotation))
+				(OPTION ?))
+			(NONTERMINAL Type)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "..."))
+				(OPTION ?))
+			(NONTERMINAL VariableDeclaratorId)))
+	(RULE ConstructorDeclaration
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL TypeParameters))
+				(OPTION ?))
+			(NONTERMINAL IDENTIFIER)
+			(NONTERMINAL FormalParameters)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "throws")
+					(NONTERMINAL NameList))
+				(OPTION ?))
+			(TERMINAL "{")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL ExplicitConstructorInvocation))
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL BlockStatement))
+				(OPTION *))
+			(TERMINAL "}")))
+	(RULE ExplicitConstructorInvocation
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL IDENTIFIER)
+					(TERMINAL "."))
+				(OPTION *))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "this")
+					(TERMINAL "."))
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL TypeArguments))
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "this"))
+				(RULEPART
+					(TERMINAL "super")))
+			(NONTERMINAL Arguments)
+			(TERMINAL ";")))
+	(RULE Initializer
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "static"))
+				(OPTION ?))
+			(NONTERMINAL Block)))
+	(RULE Type
+		(RULEPART
+			(NONTERMINAL ReferenceType)) Type
+		(RULEPART
+			(NONTERMINAL PrimitiveType)))
+	(RULE ReferenceType
+		(RULEPART
+			(NONTERMINAL PrimitiveType)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "[")
+					(TERMINAL "]"))
+				(OPTION +))) ReferenceType
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL ClassOrInterfaceType)))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "[")
+					(TERMINAL "]"))
+				(OPTION *))))
+	(RULE ClassOrInterfaceType
+		(RULEPART
+			(NONTERMINAL IDENTIFIER)
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL TypeArguments))
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ".")
+					(NONTERMINAL IDENTIFIER)
+					(RULEGROUP
+						(RULEPART
+							(NONTERMINAL TypeArguments))
+						(OPTION ?)))
+				(OPTION *))))
+	(RULE TypeArguments
+		(RULEPART
+			(TERMINAL "<")
+			(NONTERMINAL TypeArgument)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ",")
+					(NONTERMINAL TypeArgument))
+				(OPTION *))
+			(TERMINAL ">")))
+	(RULE TypeArgument
+		(RULEPART
+			(NONTERMINAL ReferenceType)) TypeArgument
+		(RULEPART
+			(TERMINAL "?")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL WildcardBounds))
+				(OPTION ?))))
+	(RULE WildcardBounds
+		(RULEPART
+			(TERMINAL "extends")
+			(NONTERMINAL ReferenceType)) WildcardBounds
+		(RULEPART
+			(TERMINAL "super")
+			(NONTERMINAL ReferenceType)))
+	(RULE PrimitiveType
+		(RULEPART
+			(TERMINAL "boolean")) PrimitiveType
+		(RULEPART
+			(TERMINAL "char")) PrimitiveType
+		(RULEPART
+			(TERMINAL "byte")) PrimitiveType
+		(RULEPART
+			(TERMINAL "short")) PrimitiveType
+		(RULEPART
+			(TERMINAL "int")) PrimitiveType
+		(RULEPART
+			(TERMINAL "long")) PrimitiveType
+		(RULEPART
+			(TERMINAL "float")) PrimitiveType
+		(RULEPART
+			(TERMINAL "double")))
+	(RULE ResultType
+		(RULEPART
+			(TERMINAL "void")) ResultType
+		(RULEPART
+			(NONTERMINAL Type)))
+	(RULE Name
+		(RULEPART
+			(NONTERMINAL IDENTIFIER)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ".")
+					(NONTERMINAL IDENTIFIER))
+				(OPTION *))))
+	(RULE NameList
+		(RULEPART
+			(NONTERMINAL Name)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ",")
+					(NONTERMINAL Name))
+				(OPTION *))))
+	(RULE Expression
+		(RULEPART
+			(NONTERMINAL ConditionalExpression)
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL AssignmentOperator)
+					(NONTERMINAL Expression))
+				(OPTION ?))))
+	(RULE AssignmentOperator
+		(RULEPART
+			(TERMINAL "=")) AssignmentOperator
+		(RULEPART
+			(TERMINAL "*=")) AssignmentOperator
+		(RULEPART
+			(TERMINAL "/=")) AssignmentOperator
+		(RULEPART
+			(TERMINAL "%=")) AssignmentOperator
+		(RULEPART
+			(TERMINAL "+=")) AssignmentOperator
+		(RULEPART
+			(TERMINAL "-=")) AssignmentOperator
+		(RULEPART
+			(TERMINAL "<<=")) AssignmentOperator
+		(RULEPART
+			(TERMINAL ">>=")) AssignmentOperator
+		(RULEPART
+			(TERMINAL ">>>=")) AssignmentOperator
+		(RULEPART
+			(TERMINAL "&=")) AssignmentOperator
+		(RULEPART
+			(TERMINAL "^=")) AssignmentOperator
+		(RULEPART
+			(TERMINAL "|=")))
+	(RULE ConditionalExpression
+		(RULEPART
+			(NONTERMINAL ConditionalOrExpression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "?")
+					(NONTERMINAL Expression)
+					(TERMINAL ":")
+					(NONTERMINAL Expression))
+				(OPTION ?))))
+	(RULE ConditionalOrExpression
+		(RULEPART
+			(NONTERMINAL ConditionalAndExpression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "||")
+					(NONTERMINAL ConditionalAndExpression))
+				(OPTION *))))
+	(RULE ConditionalAndExpression
+		(RULEPART
+			(NONTERMINAL InclusiveOrExpression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "&&")
+					(NONTERMINAL InclusiveOrExpression))
+				(OPTION *))))
+	(RULE InclusiveOrExpression
+		(RULEPART
+			(NONTERMINAL ExclusiveOrExpression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "|")
+					(NONTERMINAL ExclusiveOrExpression))
+				(OPTION *))))
+	(RULE ExclusiveOrExpression
+		(RULEPART
+			(NONTERMINAL AndExpression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "^")
+					(NONTERMINAL AndExpression))
+				(OPTION *))))
+	(RULE AndExpression
+		(RULEPART
+			(NONTERMINAL EqualityExpression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "&")
+					(NONTERMINAL EqualityExpression))
+				(OPTION *))))
+	(RULE EqualityExpression
+		(RULEPART
+			(NONTERMINAL InstanceOfExpression)
+			(RULEGROUP
+				(RULEPART
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL "=="))
+						(RULEPART
+							(TERMINAL "!=")))
+					(NONTERMINAL InstanceOfExpression))
+				(OPTION *))))
+	(RULE InstanceOfExpression
+		(RULEPART
+			(NONTERMINAL RelationalExpression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "instanceof")
+					(NONTERMINAL Type))
+				(OPTION ?))))
+	(RULE RelationalExpression
+		(RULEPART
+			(NONTERMINAL ShiftExpression)
+			(RULEGROUP
+				(RULEPART
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL "<"))
+						(RULEPART
+							(TERMINAL ">"))
+						(RULEPART
+							(TERMINAL "<="))
+						(RULEPART
+							(TERMINAL ">=")))
+					(NONTERMINAL ShiftExpression))
+				(OPTION *))))
+	(RULE ShiftExpression
+		(RULEPART
+			(NONTERMINAL AdditiveExpression)
+			(RULEGROUP
+				(RULEPART
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL "<<"))
+						(RULEPART
+							(NONTERMINAL RSIGNEDSHIFT))
+						(RULEPART
+							(NONTERMINAL RUNSIGNEDSHIFT)))
+					(NONTERMINAL AdditiveExpression))
+				(OPTION *))))
+	(RULE AdditiveExpression
+		(RULEPART
+			(NONTERMINAL MultiplicativeExpression)
+			(RULEGROUP
+				(RULEPART
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL "+"))
+						(RULEPART
+							(TERMINAL "-")))
+					(NONTERMINAL MultiplicativeExpression))
+				(OPTION *))))
+	(RULE MultiplicativeExpression
+		(RULEPART
+			(NONTERMINAL UnaryExpression)
+			(RULEGROUP
+				(RULEPART
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL "*"))
+						(RULEPART
+							(TERMINAL "/"))
+						(RULEPART
+							(TERMINAL "%")))
+					(NONTERMINAL UnaryExpression))
+				(OPTION *))))
+	(RULE UnaryExpression
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "+"))
+				(RULEPART
+					(TERMINAL "-")))
+			(NONTERMINAL UnaryExpression)) UnaryExpression
+		(RULEPART
+			(NONTERMINAL PreIncrementExpression)) UnaryExpression
+		(RULEPART
+			(NONTERMINAL PreDecrementExpression)) UnaryExpression
+		(RULEPART
+			(NONTERMINAL UnaryExpressionNotPlusMinus)))
+	(RULE PreIncrementExpression
+		(RULEPART
+			(TERMINAL "++")
+			(NONTERMINAL PrimaryExpression)))
+	(RULE PreDecrementExpression
+		(RULEPART
+			(TERMINAL "--")
+			(NONTERMINAL PrimaryExpression)))
+	(RULE UnaryExpressionNotPlusMinus
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "~"))
+				(RULEPART
+					(TERMINAL "!")))
+			(NONTERMINAL UnaryExpression)) UnaryExpressionNotPlusMinus
+		(RULEPART
+			(NONTERMINAL CastExpression)) UnaryExpressionNotPlusMinus
+		(RULEPART
+			(NONTERMINAL PostfixExpression)))
+	(RULE CastLookahead
+		(RULEPART
+			(TERMINAL "(")
+			(NONTERMINAL PrimitiveType)) CastLookahead
+		(RULEPART
+			(TERMINAL "(")
+			(NONTERMINAL Type)
+			(TERMINAL "[")
+			(TERMINAL "]")) CastLookahead
+		(RULEPART
+			(TERMINAL "(")
+			(NONTERMINAL Type)
+			(TERMINAL ")")
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "~"))
+				(RULEPART
+					(TERMINAL "!"))
+				(RULEPART
+					(TERMINAL "("))
+				(RULEPART
+					(NONTERMINAL IDENTIFIER))
+				(RULEPART
+					(TERMINAL "this"))
+				(RULEPART
+					(TERMINAL "super"))
+				(RULEPART
+					(TERMINAL "new"))
+				(RULEPART
+					(NONTERMINAL Literal)))))
+	(RULE PostfixExpression
+		(RULEPART
+			(NONTERMINAL PrimaryExpression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "++"))
+				(RULEPART
+					(TERMINAL "--"))
+				(OPTION ?))))
+	(RULE CastExpression
+		(RULEPART
+			(TERMINAL "(")
+			(NONTERMINAL Type)
+			(TERMINAL ")")
+			(NONTERMINAL UnaryExpression)) CastExpression
+		(RULEPART
+			(TERMINAL "(")
+			(NONTERMINAL Type)
+			(TERMINAL ")")
+			(NONTERMINAL UnaryExpressionNotPlusMinus)))
+	(RULE PrimaryExpression
+		(RULEPART
+			(NONTERMINAL PrimaryPrefix)
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL PrimarySuffix))
+				(OPTION *))))
+	(RULE MemberSelector
+		(RULEPART
+			(TERMINAL ".")
+			(NONTERMINAL TypeArguments)
+			(NONTERMINAL IDENTIFIER)))
+	(RULE PrimaryPrefix
+		(RULEPART
+			(NONTERMINAL Literal)) PrimaryPrefix
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL IDENTIFIER)
+					(TERMINAL "."))
+				(OPTION *))
+			(TERMINAL "this")) PrimaryPrefix
+		(RULEPART
+			(TERMINAL "super")
+			(TERMINAL ".")
+			(NONTERMINAL IDENTIFIER)) PrimaryPrefix
+		(RULEPART
+			(NONTERMINAL ClassOrInterfaceType)
+			(TERMINAL ".")
+			(TERMINAL "super")
+			(TERMINAL ".")
+			(NONTERMINAL IDENTIFIER)) PrimaryPrefix
+		(RULEPART
+			(TERMINAL "(")
+			(NONTERMINAL Expression)
+			(TERMINAL ")")) PrimaryPrefix
+		(RULEPART
+			(NONTERMINAL AllocationExpression)) PrimaryPrefix
+		(RULEPART
+			(NONTERMINAL ResultType)
+			(TERMINAL ".")
+			(TERMINAL "class")) PrimaryPrefix
+		(RULEPART
+			(NONTERMINAL Name)))
+	(RULE PrimarySuffix
+		(RULEPART
+			(TERMINAL ".")
+			(TERMINAL "super")) PrimarySuffix
+		(RULEPART
+			(TERMINAL ".")
+			(TERMINAL "this")) PrimarySuffix
+		(RULEPART
+			(TERMINAL ".")
+			(NONTERMINAL AllocationExpression)) PrimarySuffix
+		(RULEPART
+			(NONTERMINAL MemberSelector)) PrimarySuffix
+		(RULEPART
+			(TERMINAL "[")
+			(NONTERMINAL Expression)
+			(TERMINAL "]")) PrimarySuffix
+		(RULEPART
+			(TERMINAL ".")
+			(NONTERMINAL IDENTIFIER)) PrimarySuffix
+		(RULEPART
+			(NONTERMINAL Arguments)))
+	(RULE Literal
+		(RULEPART
+			(NONTERMINAL INTEGER_LITERAL)) Literal
+		(RULEPART
+			(NONTERMINAL FLOATING_POINT_LITERAL)) Literal
+		(RULEPART
+			(NONTERMINAL CHARACTER_LITERAL)) Literal
+		(RULEPART
+			(NONTERMINAL STRING_LITERAL)) Literal
+		(RULEPART
+			(NONTERMINAL BooleanLiteral)) Literal
+		(RULEPART
+			(NONTERMINAL NullLiteral)))
+	(RULE BooleanLiteral
+		(RULEPART
+			(TERMINAL "true")) BooleanLiteral
+		(RULEPART
+			(TERMINAL "false")))
+	(RULE NullLiteral
+		(RULEPART
+			(TERMINAL "null")))
+	(RULE Arguments
+		(RULEPART
+			(TERMINAL "(")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL ArgumentList))
+				(OPTION ?))
+			(TERMINAL ")")))
+	(RULE ArgumentList
+		(RULEPART
+			(NONTERMINAL Expression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ",")
+					(NONTERMINAL Expression))
+				(OPTION *))))
+	(RULE AllocationExpression
+		(RULEPART
+			(TERMINAL "new")
+			(NONTERMINAL PrimitiveType)
+			(NONTERMINAL ArrayDimsAndInits)) AllocationExpression
+		(RULEPART
+			(TERMINAL "new")
+			(NONTERMINAL ClassOrInterfaceType)
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL TypeArguments))
+				(OPTION ?))
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL ArrayDimsAndInits))
+				(RULEPART
+					(NONTERMINAL Arguments)
+					(RULEGROUP
+						(RULEPART
+							(NONTERMINAL ClassOrInterfaceBody))
+						(OPTION ?))))))
+	(RULE ArrayDimsAndInits
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "[")
+					(NONTERMINAL Expression)
+					(TERMINAL "]"))
+				(OPTION +))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "[")
+					(TERMINAL "]"))
+				(OPTION *))) ArrayDimsAndInits
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "[")
+					(TERMINAL "]"))
+				(OPTION +))
+			(NONTERMINAL ArrayInitializer)))
+	(RULE Statement
+		(RULEPART
+			(NONTERMINAL LabeledStatement)) Statement
+		(RULEPART
+			(NONTERMINAL AssertStatement)) Statement
+		(RULEPART
+			(NONTERMINAL Block)) Statement
+		(RULEPART
+			(NONTERMINAL EmptyStatement)) Statement
+		(RULEPART
+			(NONTERMINAL StatementExpression)
+			(TERMINAL ";")) Statement
+		(RULEPART
+			(NONTERMINAL SwitchStatement)) Statement
+		(RULEPART
+			(NONTERMINAL IfStatement)) Statement
+		(RULEPART
+			(NONTERMINAL WhileStatement)) Statement
+		(RULEPART
+			(NONTERMINAL DoStatement)) Statement
+		(RULEPART
+			(NONTERMINAL ForStatement)) Statement
+		(RULEPART
+			(NONTERMINAL BreakStatement)) Statement
+		(RULEPART
+			(NONTERMINAL ContinueStatement)) Statement
+		(RULEPART
+			(NONTERMINAL ReturnStatement)) Statement
+		(RULEPART
+			(NONTERMINAL ThrowStatement)) Statement
+		(RULEPART
+			(NONTERMINAL SynchronizedStatement)) Statement
+		(RULEPART
+			(NONTERMINAL TryStatement)))
+	(RULE AssertStatement
+		(RULEPART
+			(TERMINAL "assert")
+			(NONTERMINAL Expression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ":")
+					(NONTERMINAL Expression))
+				(OPTION ?))
+			(TERMINAL ";")))
+	(RULE LabeledStatement
+		(RULEPART
+			(NONTERMINAL IDENTIFIER)
+			(TERMINAL ":")
+			(NONTERMINAL Statement)))
+	(RULE Block
+		(RULEPART
+			(TERMINAL "{")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL BlockStatement))
+				(OPTION *))
+			(TERMINAL "}")))
+	(RULE BlockStatement
+		(RULEPART
+			(NONTERMINAL LocalVariableDeclaration)
+			(TERMINAL ";")) BlockStatement
+		(RULEPART
+			(NONTERMINAL Statement)) BlockStatement
+		(RULEPART
+			(NONTERMINAL ClassOrInterfaceDeclaration)))
+	(RULE LocalVariableDeclaration
+		(RULEPART
+			(NONTERMINAL Modifiers)
+			(NONTERMINAL Type)
+			(NONTERMINAL VariableDeclarator)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ",")
+					(NONTERMINAL VariableDeclarator))
+				(OPTION *))))
+	(RULE EmptyStatement
+		(RULEPART
+			(TERMINAL ";")))
+	(RULE StatementExpression
+		(RULEPART
+			(NONTERMINAL PreIncrementExpression)) StatementExpression
+		(RULEPART
+			(NONTERMINAL PreDecrementExpression)) StatementExpression
+		(RULEPART
+			(NONTERMINAL PrimaryExpression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "++"))
+				(RULEPART
+					(TERMINAL "--"))
+				(RULEPART
+					(NONTERMINAL AssignmentOperator)
+					(NONTERMINAL Expression))
+				(OPTION ?))))
+	(RULE SwitchStatement
+		(RULEPART
+			(TERMINAL "switch")
+			(TERMINAL "(")
+			(NONTERMINAL Expression)
+			(TERMINAL ")")
+			(TERMINAL "{")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL SwitchLabel)
+					(RULEGROUP
+						(RULEPART
+							(NONTERMINAL BlockStatement))
+						(OPTION *)))
+				(OPTION *))
+			(TERMINAL "}")))
+	(RULE SwitchLabel
+		(RULEPART
+			(TERMINAL "case")
+			(NONTERMINAL Expression)
+			(TERMINAL ":")) SwitchLabel
+		(RULEPART
+			(TERMINAL "default")
+			(TERMINAL ":")))
+	(RULE IfStatement
+		(RULEPART
+			(TERMINAL "if")
+			(TERMINAL "(")
+			(NONTERMINAL Expression)
+			(TERMINAL ")")
+			(NONTERMINAL Statement)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "else")
+					(NONTERMINAL Statement))
+				(OPTION ?))))
+	(RULE WhileStatement
+		(RULEPART
+			(TERMINAL "while")
+			(TERMINAL "(")
+			(NONTERMINAL Expression)
+			(TERMINAL ")")
+			(NONTERMINAL Statement)))
+	(RULE DoStatement
+		(RULEPART
+			(TERMINAL "do")
+			(NONTERMINAL Statement)
+			(TERMINAL "while")
+			(TERMINAL "(")
+			(NONTERMINAL Expression)
+			(TERMINAL ")")
+			(TERMINAL ";")))
+	(RULE ForStatement
+		(RULEPART
+			(TERMINAL "for")
+			(TERMINAL "(")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL Modifiers)
+					(NONTERMINAL Type)
+					(NONTERMINAL IDENTIFIER)
+					(TERMINAL ":")
+					(NONTERMINAL Expression))
+				(RULEPART
+					(RULEGROUP
+						(RULEPART
+							(NONTERMINAL ForInit))
+						(OPTION ?))
+					(TERMINAL ";")
+					(RULEGROUP
+						(RULEPART
+							(NONTERMINAL Expression))
+						(OPTION ?))
+					(TERMINAL ";")
+					(RULEGROUP
+						(RULEPART
+							(NONTERMINAL ForUpdate))
+						(OPTION ?))))
+			(TERMINAL ")")
+			(NONTERMINAL Statement)))
+	(RULE ForInit
+		(RULEPART
+			(NONTERMINAL LocalVariableDeclaration)) ForInit
+		(RULEPART
+			(NONTERMINAL StatementExpressionList)))
+	(RULE StatementExpressionList
+		(RULEPART
+			(NONTERMINAL StatementExpression)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ",")
+					(NONTERMINAL StatementExpression))
+				(OPTION *))))
+	(RULE ForUpdate
+		(RULEPART
+			(NONTERMINAL StatementExpressionList)))
+	(RULE BreakStatement
+		(RULEPART
+			(TERMINAL "break")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL IDENTIFIER))
+				(OPTION ?))
+			(TERMINAL ";")))
+	(RULE ContinueStatement
+		(RULEPART
+			(TERMINAL "continue")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL IDENTIFIER))
+				(OPTION ?))
+			(TERMINAL ";")))
+	(RULE ReturnStatement
+		(RULEPART
+			(TERMINAL "return")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL Expression))
+				(OPTION ?))
+			(TERMINAL ";")))
+	(RULE ThrowStatement
+		(RULEPART
+			(TERMINAL "throw")
+			(NONTERMINAL Expression)
+			(TERMINAL ";")))
+	(RULE SynchronizedStatement
+		(RULEPART
+			(TERMINAL "synchronized")
+			(TERMINAL "(")
+			(NONTERMINAL Expression)
+			(TERMINAL ")")
+			(NONTERMINAL Block)))
+	(RULE TryStatement
+		(RULEPART
+			(TERMINAL "try")
+			(NONTERMINAL Block)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "catch")
+					(TERMINAL "(")
+					(NONTERMINAL FormalParameter)
+					(TERMINAL ")")
+					(NONTERMINAL Block))
+				(OPTION *))
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL "finally")
+					(NONTERMINAL Block))
+				(OPTION ?))))
+	(RULE RUNSIGNEDSHIFT
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ">")
+					(TERMINAL ">")
+					(TERMINAL ">")))))
+	(RULE RSIGNEDSHIFT
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ">")
+					(TERMINAL ">")))))
+	(RULE Annotation
+		(RULEPART
+			(NONTERMINAL NormalAnnotation)) Annotation
+		(RULEPART
+			(NONTERMINAL SingleMemberAnnotation)) Annotation
+		(RULEPART
+			(NONTERMINAL MarkerAnnotation)))
+	(RULE NormalAnnotation
+		(RULEPART
+			(TERMINAL "@")
+			(NONTERMINAL Name)
+			(TERMINAL "(")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL MemberValuePairs))
+				(OPTION ?))
+			(TERMINAL ")")))
+	(RULE MarkerAnnotation
+		(RULEPART
+			(TERMINAL "@")
+			(NONTERMINAL Name)))
+	(RULE SingleMemberAnnotation
+		(RULEPART
+			(TERMINAL "@")
+			(NONTERMINAL Name)
+			(TERMINAL "(")
+			(NONTERMINAL MemberValue)
+			(TERMINAL ")")))
+	(RULE MemberValuePairs
+		(RULEPART
+			(NONTERMINAL MemberValuePair)
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ",")
+					(NONTERMINAL MemberValuePair))
+				(OPTION *))))
+	(RULE MemberValuePair
+		(RULEPART
+			(NONTERMINAL IDENTIFIER)
+			(TERMINAL "=")
+			(NONTERMINAL MemberValue)))
+	(RULE MemberValue
+		(RULEPART
+			(NONTERMINAL Annotation)) MemberValue
+		(RULEPART
+			(NONTERMINAL MemberValueArrayInitializer)) MemberValue
+		(RULEPART
+			(NONTERMINAL ConditionalExpression)))
+	(RULE MemberValueArrayInitializer
+		(RULEPART
+			(TERMINAL "{")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL MemberValue)
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL ",")
+							(NONTERMINAL MemberValue))
+						(OPTION *))
+					(RULEGROUP
+						(RULEPART
+							(TERMINAL ","))
+						(OPTION ?)))
+				(OPTION ?))
+			(TERMINAL "}")))
+	(RULE AnnotationTypeDeclaration
+		(RULEPART
+			(TERMINAL "@")
+			(TERMINAL "interface")
+			(NONTERMINAL IDENTIFIER)
+			(NONTERMINAL AnnotationTypeBody)))
+	(RULE AnnotationTypeBody
+		(RULEPART
+			(TERMINAL "{")
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL AnnotationTypeMemberDeclaration))
+				(OPTION *))
+			(TERMINAL "}")))
+	(RULE AnnotationTypeMemberDeclaration
+		(RULEPART
+			(NONTERMINAL Modifiers)
+			(RULEGROUP
+				(RULEPART
+					(NONTERMINAL Type)
+					(NONTERMINAL IDENTIFIER)
+					(TERMINAL "(")
+					(TERMINAL ")")
+					(RULEGROUP
+						(RULEPART
+							(NONTERMINAL DefaultValue))
+						(OPTION ?))
+					(TERMINAL ";"))
+				(RULEPART
+					(NONTERMINAL ClassOrInterfaceDeclaration))
+				(RULEPART
+					(NONTERMINAL EnumDeclaration))
+				(RULEPART
+					(NONTERMINAL AnnotationTypeDeclaration))
+				(RULEPART
+					(NONTERMINAL FieldDeclaration)))) AnnotationTypeMemberDeclaration
+		(RULEPART
+			(RULEGROUP
+				(RULEPART
+					(TERMINAL ";")))))
+	(RULE DefaultValue
+		(RULEPART
+			(TERMINAL "default")
+			(NONTERMINAL MemberValue))))

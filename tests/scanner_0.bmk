@@ -1,0 +1,5 @@
+COMMENT_BLOCK(
+ * This is a multiline comment, it should read as a "COMMENT_BLOCK" to the
+ * scanner.  None of the special symbols in this comment should be treated as
+ * such! Special symbols: ({[|;=-,*+?]})
+ ) COMMENT( This is a rule) ID(start) EQUALS(=) ID(rule1) SEMICOLON(;) COMMENT( AAANND... this is another rule) ID(rule1) EQUALS(=) STRING('B') PIPE(|) STRING('C') PIPE(|) ID(rule2) SEMICOLON(;) ID(rule2) EQUALS(=) STRING("a double quoted string") PIPE(|) ID(a_rule_with_underscores) SEMICOLON(;) ID(rule3) EQUALS(=) STRING("a rule without any spaces between stuff") PIPE(|) COMMENT_BLOCK(comment here) ID(rule4) SEMICOLON(;) EOT() 

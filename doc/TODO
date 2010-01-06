@@ -1,0 +1,55 @@
+[X]	Fix scanner issue with comments that occur right after symbols (HACKED)
+[X]	Fix symbol scanning.  It's fundamentally broken (needs a state machine)
+[X]	Begin recursive descent parser (can now parse simple BNF grammar)
+[X]	Generate AST from parser (simple BNF)
+[X]	Refactor TOKENS and AST NODE TYPES so all information about them is delcared in one place (cbnf.h)
+[X]	AST API is too verbose, unnecessarily complicated, clean it up
+[X]	Pretty printing of AST needs to be prettier
+[X] Extend compiler to support EBNF (be able to parse C syntax from parser_C.tst)
+[X]	Include '<delim>' as option.  Example: <,> means one or more sep by commas, replace % in parser_3.tst
+[X]	Finish AST query iterators
+[X]	Add C Hash table implementation for semantic analyzer
+[X]	Semantic checking I: Duplicate rules, undefined nonterminals
+[X]	Clean up test framework so less duplicate code in the tests
+[X]  Implement google::CTemplate http://google-ctemplate.googlecode.com/svn/trunk/doc/howto.html in C
+	[X]	Iterator for hashtable
+	[X]	Debug print of dictionary
+	[X]	Test Framework: Read dictionary/template from file
+	[X]	Test Framework: Process template and compare to benchmark
+	[X]	Support comment markers
+	[X]	Modify template dictionary code to support dictionaries as children
+	[X]	Test Framework: Dictionary read code allow escaped special characters
+	[X]	Test Framework: Dictionary read code allow comments ('#')
+	[X]	Test Framework: Dictionary read code allow nested dictionaries
+	[X]	Sections {{#SOMETHING}}.. {{/SOMETHING}} support in template_process
+	[X]	Add nested scoping for dictionary markers
+	[X]	Support empty sections
+	[X]	Support set delimiter markers and specifying set delimiters in code
+	[X]	Refactor _process() to be more readable
+	[X]	Separator sections support in template_process
+	[X]	Includes {{>SOME_FILE}} support in template_process
+		[X]	Add infrastructure support
+		[X]	Add support for template callbacks
+		[X]	Add support for loading templates by filename
+		[X]	Make sure the appropriate indention level is retained when outputting the included template
+	[X]	Basic support for template modifiers
+	[X]	Create tool for turning template files into strings in C headers
+	[X] 	Break out the c primitives library, CTemplate library, push to github as libtemplate 0.1
+	-	0.2: Binary templates
+	-	0.2: Template preprocess into data structure for faster application.  This way parsing overhead would only happen once, use CBNF to generate the parser
+	-	0.2: Add support for Pragmas, built-in modifiers, and modifier args
+[]  AST Nodes and Node Values should have pointers to the declaring token
+[]	Tokens should record line number and character position encountered
+[]	Cache source lines so we can redisplay them in error reports
+[]	Include memory checker from Cx src
+[]	Clean up memory leaks
+[]	Post to Github, Version 0.1!
+[]	Output parser should avoid stack overflow issues by using tail recursion, being table-driven, using gotos, or maybe some other method
+
+
+"Phase II"
+[]	Lexer should generate a DFA
+[]	Allow regular expressions in lexical grammar
+[]	Automatically perform left-factoring and left-recursion elimination on the AST, don't make the programmer do it in their grammar!
+[]	Automatically gather tokens from the grammar based on ALL_CAPS.  Can also provide  tokens {} section for dummy tokens or to specify options on a token
+[]	Ability to embed templates as C Strings to compile directly into the program
