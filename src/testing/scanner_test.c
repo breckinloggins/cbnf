@@ -1,4 +1,4 @@
-#include "../useful/test_utils.h"
+#include "../../lib/libuseful/src/test_utils.h"
 #include "../cbnf.h"
 #include "../scanner.h"
 #include <string.h>

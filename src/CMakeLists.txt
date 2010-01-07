@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 PROJECT (cbnf)
 
-ADD_SUBDIRECTORY(useful)
+ADD_SUBDIRECTORY(../lib/libuseful/src "${CMAKE_CURRENT_BINARY_DIR}/libuseful")
 
 FIND_PROGRAM(DiffFound diff)
 IF(DiffFound STREQUAL "DiffFound-NOTFOUND")

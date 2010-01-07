@@ -8,7 +8,7 @@
 #include "cbnf.h"
 #include "ast.h"
 #include "analyzer.h"
-#include "useful/include/hashtable.h"
+#include "../lib/libuseful/src/include/hashtable.h"
 
 static hashtable* rules = 0;
 

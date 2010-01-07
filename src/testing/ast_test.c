@@ -1,9 +1,8 @@
-#include "../useful/test_utils.h"
+#include "../../lib/libuseful/src/test_utils.h"
 #include "../ast.h"
 #include "../cbnf.h"
 
-int main(int argc, char** argv)	{
-		
+DEFINE_TEST_FUNCTION {	
 	ast_node* node = ast_new_node(GRAMMAR_NODE);
 	ast_append_string(node, "EBNF");
 	ast_append_string(node, "FOO");
@@ -15,6 +14,10 @@ int main(int argc, char** argv)	{
 	
 	ast_pretty_print(stdout, node, cbnf_node_type_to_string);
 	ast_free_node(node);
-
+	
 	return 0;
+}
+
+int main(int argc, char** argv)	{
+	RUN_TEST;
 }
