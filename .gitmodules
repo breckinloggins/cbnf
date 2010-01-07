@@ -1,3 +1,6 @@
 [submodule "lib/libuseful"]
 	path = lib/libuseful
 	url = git://github.com/breckinloggins/libuseful.git
+[submodule "lib/ngtemplate"]
+	path = lib/ngtemplate
+	url = git://github.com/breckinloggins/ngtemplate.git

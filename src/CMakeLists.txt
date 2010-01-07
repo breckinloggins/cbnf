@@ -1,12 +1,17 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 PROJECT (cbnf)
 
-ADD_SUBDIRECTORY(../lib/libuseful/src "${CMAKE_CURRENT_BINARY_DIR}/libuseful")
+SET(LIBUSEFUL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../lib/libuseful/src")
+
+ADD_SUBDIRECTORY(${LIBUSEFUL_DIR} "${CMAKE_CURRENT_BINARY_DIR}/libuseful")
+ADD_SUBDIRECTORY(../lib/ngtemplate/src "${CMAKE_CURRENT_BINARY_DIR}/ngtemplate")
 
 FIND_PROGRAM(DiffFound diff)
 IF(DiffFound STREQUAL "DiffFound-NOTFOUND")
 	MESSAGE(FATAL_ERROR "The diff tool is not found on your system.  This is required for testing!")
 ENDIF(DiffFound STREQUAL "DiffFound-NOTFOUND")
+
+INCLUDE_DIRECTORIES(${LIBUSEFUL_INCLUDES})
 
 SET (CBNF_SRCS 
 	main.c 
