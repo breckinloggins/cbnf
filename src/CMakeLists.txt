@@ -12,6 +12,7 @@ IF(DiffFound STREQUAL "DiffFound-NOTFOUND")
 ENDIF(DiffFound STREQUAL "DiffFound-NOTFOUND")
 
 INCLUDE_DIRECTORIES(${LIBUSEFUL_INCLUDES})
+INCLUDE_DIRECTORIES(${NGTEMPLATE_INCLUDES})
 
 SET (CBNF_SRCS 
 	main.c 
@@ -20,12 +21,13 @@ SET (CBNF_SRCS
 	parser.c 
 	analyzer.c 
 	ast.c
+	codegen.c
 )
 
 SET (CMAKE_BUILD_TYPE Debug)
 
 ADD_EXECUTABLE(cbnf ${CBNF_SRCS})
-TARGET_LINK_LIBRARIES(cbnf useful)
+TARGET_LINK_LIBRARIES(cbnf useful ngtemplate)
 
 ENABLE_TESTING()
 
